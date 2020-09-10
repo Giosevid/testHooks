@@ -1,15 +1,11 @@
 import React from 'react';
-import {
-  View,
-  Text,
-} from 'react-native';
+import 'react-native-gesture-handler';
+import RootNavigator from '../src/navigations'
 
 export default function App() {
   return (
     <>
-      <View>
-        <Text>Login</Text>
-      </View>
+      <RootNavigator />
     </>
   );
 };
