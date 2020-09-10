@@ -4,13 +4,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Button from '../components/commons/Button/Button';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import Input from '../components/commons/Input';
+import Menu from './Menu';
+import { navigationRef } from './NavigationRoot';
+import * as NavigationRoot from './NavigationRoot'
 
 function HomeScreen(props) {
-  const actionButton = () => props.navigation.navigate('Perfiles');
+  const actionButton = () => NavigationRoot.navigate('Perfiles');
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
+      <Input placeholder="correo electrónico" />
       <Button action={actionButton} label='Ir a' />
     </View>
   );
@@ -27,15 +32,16 @@ function Perfiles(props) {
   );
 }
 
+const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function RootNavigator() {
   return (
-    <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Feed" component={HomeScreen} />
-        <Drawer.Screen name="Article" component={Perfiles} />
-    </Drawer.Navigator>
+    <NavigationContainer ref={navigationRef}>
+      <Drawer.Navigator drawerContent={(props) => <Menu {...props} />}>
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Perfiles" component={Perfiles} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }
