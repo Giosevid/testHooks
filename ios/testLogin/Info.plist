@@ -6,6 +6,7 @@
 	<array>
 		<string>OpenSans-Regular.ttf</string>
 		<string>OpenSans-Bold.ttf</string>
+		<string>Ionicons.ttf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
