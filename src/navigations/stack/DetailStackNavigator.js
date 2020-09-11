@@ -1,12 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from "../screens/Home";
+import Detail from '../../screens/Detail';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const HomeStack = createStackNavigator();
 
-const HomeStackScreen = ({navigation}) => (
-    <HomeStack.Navigator screenOptions={{
+const DetailStack = createStackNavigator();
+
+const DetailStackScreen = ({navigation}) => (
+    <DetailStack.Navigator screenOptions={{
       headerStyle: {
         backgroundColor: "#009387",
       },
@@ -15,13 +16,13 @@ const HomeStackScreen = ({navigation}) => (
         fontWeight: 'bold'
       }
     }}>
-      <HomeStack.Screen name="Home" component={Home} options={{
-        title: 'Inicio',
+      <DetailStack.Screen name="Detail" component={Detail} options={{
         headerLeft: () => (
           <Icon.Button name="ios-menu" size={25} backgroundColor="#009387" onPress={() => navigation.openDrawer()}/>
         )
-      }}/>
-    </HomeStack.Navigator>
-)
+      }} />
+    </DetailStack.Navigator>
 
-export default HomeStackScreen
+)
+ 
+export default DetailStackScreen;
