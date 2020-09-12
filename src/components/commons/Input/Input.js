@@ -1,19 +1,22 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
-import { Colors, Mixins } from '../../../styles';
-import { onChange } from 'react-native-reanimated';
+import {TextInput, StyleSheet, Platform} from 'react-native';
 
-export default function Input({ placeholder, onChange }) {
+export default function Input({ placeholder, onChange, password=false }) {
     return(
-        <TextInput style={styles.wrapper} placeholder={placeholder} onChangeText={onChange} />
+        <TextInput 
+            style={styles.textInput} 
+            placeholder={placeholder} 
+            onChangeText={onChange} 
+            secureTextEntry={password}
+        />
     )
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.PRIMARY,
-        width: 200,
-        ...Mixins.padding(10,15, 10, 15)
-    }
+    textInput: {
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        paddingLeft: 10,
+        color: '#05375a' 
+    },
 })

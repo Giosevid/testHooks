@@ -1,7 +1,6 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Profile from '../screens/Profile';
 import DetailStackScreen from './stack/DetailStackNavigator';
 import HomeStackScreen from './stack/HomeStackNavigator';
 import NotificationsStackScreen from './stack/NotificationsStackNavigator';

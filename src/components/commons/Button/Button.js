@@ -2,9 +2,9 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Mixins, Typography, Colors, Spacing } from '../../../styles';
 
-export default function Button({ label, action }) {
+export default function Button({ label, onPress }) {
     return(
-        <TouchableOpacity style={styles.wrapper} onPress={action}>
+        <TouchableOpacity style={styles.wrapper} onPress={onPress}>
             <Text style={styles.label}>{label}</Text>
         </TouchableOpacity>
     )
