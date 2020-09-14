@@ -1,11 +1,14 @@
 import React, {useState} from 'react'
-import { useFormik } from 'formik';
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { useFormik } from 'formik'
+import { Platform, StyleSheet, StatusBar, Text, View } from 'react-native'
 import { Typography } from '../styles'
 import * as Animatable from 'react-native-animatable'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Input from '../components/commons/Input'
 import Button from '../components/commons/Button';
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import * as NavigationRoot from '../navigations/NavigationRoot'
+import * as Yup from 'yup'
 
 export default function SignIn() {
 
@@ -17,31 +20,53 @@ export default function SignIn() {
           email: '',
           password: '',
         },
+        validationSchema: Yup.object({
+            email: Yup.string().email("Email inválido").required("El email es requerido"),
+            password: Yup.string().required("El password es requerido")
+        }),
         onSubmit: values => {
-          alert(JSON.stringify(values));
+          console.log(values);
         },
     });
 
     return (
         <View style={styles.container}>
+            <StatusBar backgroundColor="#009387" barStyle="light-content" />
             <View style={styles.header}>
                 <Text style={styles.textHeader}>Bienvenido!</Text>
             </View>
-            <View style={styles.footer}>
+            <Animatable.View animation="fadeInUpBig" style={styles.footer}>
                 <Text style={styles.textFooter}>Email</Text>
                 <View style={styles.action}>
                     <Icon name="person-outline" color="#05375a" size={20} />
                     <Input placeholder="Tu email" onChange={formik.handleChange('email')} />
-                    <Icon name="checkmark-circle-outline" color="green" size={20} />
+                    <Animatable.View animation="bounceIn">
+                        <Icon name="checkmark-circle-outline" color="green" size={20} />
+                    </Animatable.View>
                 </View>
+                {<Text>{formik.errors.email}</Text>}
                 <Text style={[styles.textFooter, { marginTop: 35 }]}>Password</Text>
                 <View style={styles.action}>
                     <Icon name="lock-closed-outline" color="#05375a" size={20} />
-                    <Input placeholder="Password" password={showPassword} />
-                    <Icon name="eye-off-outline" color="green" size={20} onPress={() => setshowPassword(!showPassword)} />
+                    <Input placeholder="Password" password={showPassword} onChange={formik.handleChange('password')} />
+                    <TouchableOpacity onPress={() => setshowPassword(!showPassword)}>
+                        <Icon 
+                            name={showPassword ? 'eye-off-outline' : 'eye-outline'} 
+                            color="green" 
+                            size={20} 
+                        />
+                    </TouchableOpacity>
                 </View>
-                <Button label="Aceptar" onPress={formik.handleSubmit} />
-            </View>
+                {<Text>{formik.errors.password}</Text>}
+                <View style={styles.wrapButtons}>
+                    <View style={styles.button}>
+                        <Button label="Sign In" onPress={formik.handleSubmit} />
+                    </View>
+                    <View style={styles.button}>
+                        <Button label="Sign Up" onPress={() => NavigationRoot.navigate('SignUp')} outline />
+                    </View>
+                </View>
+            </Animatable.View>
         </View>
     )
 }
@@ -88,8 +113,10 @@ const styles = StyleSheet.create({
         color: '#05375a' 
     },
     button: {
-        alignItems: 'center',
-        marginTop: 50
+        marginRight: 30
+    },
+    wrapButtons: {
+        marginTop: 20
     },
     signIn: {
         width: '100%',
