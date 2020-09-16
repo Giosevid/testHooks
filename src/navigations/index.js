@@ -1,42 +1,28 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { ActivityIndicator, View } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { navigationRef } from './NavigationRoot';
-import DrawerNavigator from './DrawerNavigator';
-import TabsNavigator from './TabsNavigator';
-import Settings from '../screens/Settings';
-import Supoports from '../screens/Supoports';
-import * as NavigationRoot from './NavigationRoot';
-import RootStackScreen from './stack/RootStackNavigator';
-import Loader from '../components/commons/Loader/Loader';
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { NavigationContainer } from '@react-navigation/native'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import { navigationRef } from './NavigationRoot'
+import DrawerNavigator from './DrawerNavigator'
+import TabsNavigator from './TabsNavigator'
+import Settings from '../screens/Settings'
+import Supoports from '../screens/Supoports'
+import RootStackScreen from './stack/RootStackNavigator'
+import Loader from '../components/commons/Loader/Loader'
+import { LOGOUT } from '../utils/constants'
+import UserListStackScreen from './stack/UserListStackNavigator'
 
 const Drawer = createDrawerNavigator();
 
 function RootNavigator() {
-  const [loading, setloading] = useState(true)
-  const [userToken, setuserToken] = useState(null)
+  const dispatch = useDispatch()
+  const {loading, userToken} = useSelector(({ login }) => login)
 
   useEffect(() => {
     setTimeout(() => {
-      setloading(false)
+      dispatch({ type: LOGOUT })
     }, 1000);
   }, [])
-
-  const auth = () => useMemo(() => ({
-    signIn: () => {
-      setuserToken('123')
-      setloading(false)
-    },
-    signOut: () => {
-      setuserToken(null)
-      setloading(false)
-    },
-    signUp: () => {
-      setuserToken('123')
-      setloading(false)
-    }
-  }))
 
   if (loading) {
     return (
@@ -46,12 +32,18 @@ function RootNavigator() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <RootStackScreen />
-      {/* <Drawer.Navigator drawerContent={props => <DrawerNavigator {...props} />}>
-        <Drawer.Screen name="HomeDrawer" component={TabsNavigator} />
-        <Drawer.Screen name="Settings" component={Settings} />
-        <Drawer.Screen name="Supports" component={Supoports} />
-      </Drawer.Navigator> */}
+      { 
+        userToken === null ? (
+          <Drawer.Navigator drawerContent={props => <DrawerNavigator {...props} />}>
+            <Drawer.Screen name="HomeDrawer" component={TabsNavigator} />
+            <Drawer.Screen name="Settings" component={Settings} />
+            <Drawer.Screen name="Supports" component={Supoports} />
+            <Drawer.Screen name="UserDetails" component={UserListStackScreen} />
+          </Drawer.Navigator>
+        ) : (
+          <RootStackScreen />
+        )
+      }
     </NavigationContainer>
   );
 }

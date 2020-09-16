@@ -1,17 +1,32 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import Button from '../components/commons/Button';
-import Input from '../components/commons/Input';
+import React, { useState, useEffect } from 'react';
+import { userService } from '../api';
+import Loader from '../components/commons/Loader/Loader';
+import UsersList from '../components/UserList/Userslist';
 
+export default function Home({ navigation }) {
+    const [users, setuser] = useState([])
+    const [loading, setLoading] = useState(true)
 
-export default function Home() {
-    const actionButton = () => NavigationRoot.navigate('Detail');
+    useEffect(() => {
+      getUserData()
+    }, [])
+
+    const getUserData = async () => {
+      await userService.getUser()
+      .then(({data}) => {
+        setuser(data.results)
+        setLoading(false)
+      })
+      .catch(console.error)
+    }
+
+    if (loading) {
+      return <Loader />
+    }
   
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <Input placeholder="correo electrónico" />
-        <Button action={actionButton} label='Ir a Detail' />
-      </View>
+      <>
+        <UsersList users={users} navigation={navigation} />
+      </>
     );
 };

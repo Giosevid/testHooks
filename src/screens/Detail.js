@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Button from '../components/commons/Button';
 
 export default function Detail() {
@@ -9,7 +9,7 @@ export default function Detail() {
     const actionButtonPop = () => props.navigation.popToTop();
   
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.container}>
         <Text>Detail Screen</Text>
         <Button action={actionButtonPush}  label='Ir a Detail de nuevo' />
         <Button action={actionButton}  label='Ir a Home' />
@@ -17,3 +17,11 @@ export default function Detail() {
       </View>
     );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center'
+  }
+})

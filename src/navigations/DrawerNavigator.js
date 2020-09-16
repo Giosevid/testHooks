@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import { StyleSheet, Text, View } from 'react-native'
-import { Avatar, Drawer, TouchableRipple, Switch } from 'react-native-paper'
+import { Avatar, Drawer } from 'react-native-paper'
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import { Typography } from '../styles'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { LOGOUT } from '../utils/constants'
 
 export default function DrawerNavigator(props) {
-    const [isDarkThme, setIsDarkTheme] = useState(false);
-
-    const toggleTheme = ( ) => setIsDarkTheme(prevState => !prevState)
+    const dispatch = useDispatch()
 
     return (
         <View style={styles.drawerContent}>
@@ -35,19 +35,9 @@ export default function DrawerNavigator(props) {
                     <DrawerItem icon={({color, size}) => <Icon name="settings-outline" color={color} size={size} />} onPress={() => props.navigation.navigate('Settings')} label="Settings"/>
                     <DrawerItem icon={({color, size}) => <Icon name="people-outline" color={color} size={size} />} onPress={() => props.navigation.navigate('Supports')} label="Support"/>
                 </Drawer.Section>
-                <Drawer.Section title="Preferencias">
-                    <TouchableRipple onPress={toggleTheme}>
-                        <View style={styles.preference}>
-                            <Text>Tema Oscuro</Text>
-                            <View pointerEvents="none">
-                                <Switch value={isDarkThme} />
-                            </View>
-                        </View>
-                    </TouchableRipple>
-                </Drawer.Section>
             </DrawerContentScrollView>
             <Drawer.Section style={styles.bottomDrawerSection}>
-                <DrawerItem icon={({color, size}) => <Icon name="log-out-outline" color={color} size={size} onPress={() =>{}}/>} label="Salir"/>
+                <DrawerItem icon={({color, size}) => <Icon name="log-out-outline" color={color} size={size} />} onPress={() => dispatch({ type: LOGOUT }) } label="Salir"/>
             </Drawer.Section>
         </View>
     )
