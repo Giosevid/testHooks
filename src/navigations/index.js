@@ -33,7 +33,7 @@ function RootNavigator() {
   return (
     <NavigationContainer ref={navigationRef}>
       { 
-        userToken === null ? (
+        userToken !== null ? (
           <Drawer.Navigator drawerContent={props => <DrawerNavigator {...props} />}>
             <Drawer.Screen name="HomeDrawer" component={TabsNavigator} />
             <Drawer.Screen name="Settings" component={Settings} />
